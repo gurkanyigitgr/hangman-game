@@ -1,0 +1,12 @@
+#alphabet button {
+  padding: 1rem 2rem;
+  background-color: blue;
+  margin: 1rem;
+}
+.underline span {
+  padding: 1rem;
+}
+.letters p {
+  padding: 1.522rem;
+  display: inline;
+}
