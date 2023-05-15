@@ -5,6 +5,7 @@ const containerLetters = document.querySelector(".letters");
 let letter;
 let word;
 let lives = 10;
+let fail = 0;
 
 const alphabet = [
   "a",
@@ -35,7 +36,7 @@ const alphabet = [
   "z",
 ];
 let livesGame = document.createElement("h2");
-livesGame.textContent = lives;
+livesGame.textContent = `Lives : ${lives}`;
 containerUnderline.appendChild(livesGame);
 // Alphabet Buttons
 alphabet.forEach((letter) => {
@@ -70,18 +71,41 @@ fetchRandomWord().then((data) => {
   console.log(data);
 });
 
+const clickBtn = (e) => {
+  e.preventDefault();
+
+  if (lives === 0) {
+    return;
+  }
+  let clicked = e.target.value;
+
+  e.target.disabled = true;
+  e.target.style.backgroundColor = "white";
+  const span = document.querySelectorAll(".underline span");
+  let found = false;
+
+  for (let i = 0; i < span.length; i++) {
+    if (clicked === word[i]) {
+      span[i].textContent = clicked;
+      found = true;
+    }
+  }
+  if (!found) {
+    lives--;
+    livesGame.textContent = `Lives : ${lives}`;
+    if (lives === 0) {
+      livesGame.textContent = "Game Over";
+
+      btn.forEach((button) => {
+        button.disabled = true;
+      });
+    }
+  }
+};
+
 const btn = document.querySelectorAll("button");
 btn.forEach((button) => {
-  button.addEventListener("click", (e) => {
-    e.preventDefault();
-    let clicked = button.value;
-    for (let i = 0; i < word.length; i++) {
-      if (clicked === word[i]) {
-        const span = document.querySelectorAll(".underline span");
-        span[i].textContent = clicked;
-      }
-    }
-  });
+  button.addEventListener("click", clickBtn);
 });
 
 // FOR LOOP
